@@ -38,7 +38,7 @@ if __name__ == '__main__':
     print("-" * 50)
 
 
-    for i in range(int(p_start), int(p_end)):
+    for i in range(int(p_start), int(p_end)+1):
         sock = socket.socket()
 
         try:
