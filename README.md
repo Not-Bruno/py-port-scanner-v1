@@ -1,2 +1,2 @@
-# port-scanner
-Scan Open Ports of Host x
+# Python Portscanner
+Simple Portscanner with no other function
