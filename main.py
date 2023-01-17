@@ -1,7 +1,12 @@
+import socket
 from socket import *
 import time
 import logging
+import pyfiglet
+import os
 
+clear = lambda: os.system('cls')
+ascii_banner = pyfiglet.figlet_format("PORT SCANNER")
 startT = time.time()
 log = logging.getLogger('SYS')
 
@@ -11,19 +16,26 @@ def getPortRange(ports):
 
 
 if __name__ == '__main__':
+    clear()
+    print(ascii_banner)
     host = input("Enter Host Address: ")
-    h_ip = gethostbyname(h_ip)
-    port = input("Enter Port range (start,end) : ")
+    h_IP = gethostbyname(host)
+    port = input("Enter Port range (start,end):")
     p_start, p_end = getPortRange(port)
+    clear()
 
-    log(f'Scan Host: {h_IP}')
-    log(f'Scan Ports: {p_start} - {p_end}')
+    print(ascii_banner)
+
+    print("-" * 50)
+    print(f"\tScanning Target: {h_IP}")
+    print(f"\tScanning Ports: {p_start} - {p_end}")
+    print("-" * 50)
 
 
-    for i in range(p_start, p_end):
-        socket = socket(AF_INET, SOCK_STREAM)
+    for i in range(int(p_start), int(p_end)):
+        sock = socket(AF_INET, SOCK_STREAM)
 
-        conn = s.connect_ex((t_IP, i))
+        conn = sock.connect_ex((h_IP, i))
         if(conn == 0) :
-            log(f'Port {i}: OPEN')
-        socket.close()
+            print(f'Port {i}: OPEN')
+        sock.close()
