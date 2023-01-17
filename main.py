@@ -1,14 +1,20 @@
 import socket
-from socket import *
 import time
-import logging
 import pyfiglet
 import os
+from colorama import init, Fore
 
-clear = lambda: os.system('cls')
-ascii_banner = pyfiglet.figlet_format("PORT SCANNER")
-startT = time.time()
-log = logging.getLogger('SYS')
+# Colorization
+init()
+SUCC = Fore.GREEN
+ERR = Fore.RED
+WARN = Fore.YELLOW
+RESET = Fore.RESET
+
+
+clear = lambda: os.system('cls') # Clear Terminal
+ascii_banner = pyfiglet.figlet_format("PORT SCANNER") # create ASCII Banner
+timeX = time.time() # set Timestamp
 
 def getPortRange(ports):
     ports = ports.split(',')
@@ -19,7 +25,7 @@ if __name__ == '__main__':
     clear()
     print(ascii_banner)
     host = input("Enter Host Address: ")
-    h_IP = gethostbyname(host)
+    h_IP = socket.gethostbyname(host)
     port = input("Enter Port range (start,end):")
     p_start, p_end = getPortRange(port)
     clear()
@@ -33,9 +39,13 @@ if __name__ == '__main__':
 
 
     for i in range(int(p_start), int(p_end)):
-        sock = socket(AF_INET, SOCK_STREAM)
+        sock = socket.socket()
 
-        conn = sock.connect_ex((h_IP, i))
-        if(conn == 0) :
-            print(f'Port {i}: OPEN')
-        sock.close()
+        try:
+            conn = sock.connect((h_IP, i))
+            if(conn == 0) :
+                print(f'Port {i}: {SUCC}OPEN{RESET}')
+            sock.close()
+        except Exception as e:
+            print(f'Port {i}: {ERR}CLOSE{RESET}')
+            pass
